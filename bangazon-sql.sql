@@ -1,0 +1,72 @@
+CREATE TABLE Computer (
+	`Id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`OrderDate`	TEXT NOT NULL,
+	`Decommissioned` BOOLEAN NOT NULL,
+	`Status` TEXT NOT NULL
+);
+
+CREATE TABLE TrainingProgram (
+	`Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`StartDate` TEXT NOT NULL,
+	`EndDate` TEXT NOT NULL,
+	`MaxAttendees` INTEGER NOT NULL,
+	`Name` TEXT NOT NULL
+);
+
+CREATE TABLE ProductType (
+	`Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`Name` TEXT NOT NULL
+);
+
+CREATE TABLE Departments (
+	`Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`Budget` INTEGER NOT NULL,
+	`Name` TEXT NOT NULL
+);
+
+CREATE TABLE Customer (
+	`Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`FirstName` TEXT NOT NULL,
+	`LastName` TEXT NOT NULL,
+	`ActivationDate` TEXT NOT NULL,
+	`Active` BOOLEAN NOT NULL
+);
+
+CREATE TABLE Employee (
+	`Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`Name` TEXT NOT NULL,
+	`Position` TEXT NOT NULL,
+	`DepartmentId` INTEGER NOT NULL,
+	FOREIGN KEY(`DepartmentId`) REFERENCES `Department`(`Id`)
+);
+
+CREATE TABLE ComputerEmployee (
+	`Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`IssueDate` TEXT NOT NULL,
+	`EndDate` TEXT NOT NULL,
+	`ComputerId` INTEGER NOT NULL,
+	`EmployeeId` INTEGER NOT NULL,
+	FOREIGN KEY(`ComputerId`) REFERENCES `Computer`(`Id`)
+	FOREIGN KEY(`EmployeeId`) REFERENCES `Employee`(`Id`)
+);
+
+CREATE TABLE Products (
+	`Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`Price` FLOAT NOT NULL,
+	`Title` TEXT NOT NULL,
+	`Name` TEXT NOT NULL,
+	`Description` TEXT NOT NULL,
+	`Quantity` TEXT NOT NULL,
+	`CustomerId` INTEGER NOT NULL,
+	`ProductTypeId` INTEGER NOT NULL,
+	 FOREIGN KEY(`CustomerId`) REFERENCES `Customer`(`Id`)
+	 FOREIGN KEY(`ProductTypeId`) REFERENCES `ProductType`(`Id`)
+);
+
+CREATE TABLE EmployeeTrainingPrograms (
+	`Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`TrainingProgramId` INTEGER NOT NULL,
+	`EmployeeId` INTEGER NOT NULL,
+	FOREIGN KEY(`TrainingProgramId`) REFERENCES `TrainingProgram`(`Id`)
+	FOREIGN KEY(`EmployeeId`) REFERENCES `Employee`(`Id`)
+);
